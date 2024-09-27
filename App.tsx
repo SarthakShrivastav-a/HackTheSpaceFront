@@ -1,118 +1,95 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { enableScreens } from 'react-native-screens';
+import { View, Text, StyleSheet, Button } from 'react-native'; // Added Button component
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import ManageData from './ManageData';
+import Payments from './Payments';
+import CreateAccount from './CreateAccount';
+import UserProfile from './UserProfile';
+import transferPage from './transferPage';
+enableScreens();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+// Define the param list for the navigation stack
+type RootStackParamList = {
+  Home: undefined;
+  ManageData: undefined;
+  Payments: undefined;
+  CreateAccount: undefined;
+};
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+// Create the stack navigator
+const Stack = createStackNavigator<RootStackParamList>();
+
+// Define the Home screen component with navigation
+const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome to Diamante App</Text>
+      <Text style={styles.subtitle}>Select an option to proceed:</Text>
+      
+      <Button
+        title="Manage Data"
+        onPress={() => navigation.navigate('ManageData')}
+      />
+      <Button
+        title="Payments"
+        onPress={() => navigation.navigate('Payments')}
+      />
+      <Button
+        title="Create Account"
+        onPress={() => navigation.navigate('CreateAccount')}
+      />
+      <Button
+        title="User Profile"
+        onPress={() => navigation.navigate('UserProfile')}
+      />
+      <Button
+        title="Transfer Page"
+        onPress={() => navigation.navigate('transferPage')}
+      />
     </View>
   );
-}
+};
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
+// Styling for the HomeScreen component
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
-  sectionTitle: {
+  title: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginBottom: 20,
   },
-  highlight: {
-    fontWeight: '700',
-  },
+  button: {
+    marginBottom: 10,
+  }
 });
+
+// Main App component
+const App: React.FC = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="ManageData" component={ManageData} />
+        <Stack.Screen name="Payments" component={Payments} />
+        <Stack.Screen name="CreateAccount" component={CreateAccount} />
+        <Stack.Screen name="UserProfile" component={UserProfile} />
+        <Stack.Screen name="transferPage" component={transferPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default App;
