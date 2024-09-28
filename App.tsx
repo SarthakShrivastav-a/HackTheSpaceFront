@@ -9,6 +9,7 @@ import Payments from './Payments';
 import CreateAccount from './CreateAccount';
 import UserProfile from './UserProfile';
 import transferPage from './transferPage';
+import SetOptions from './SetOptions';
 enableScreens();
 
 // Define the param list for the navigation stack
@@ -32,6 +33,10 @@ const HomeScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
       <Button
         title="Manage Data"
         onPress={() => navigation.navigate('ManageData')}
+      />
+      <Button
+        title="Set Options"
+        onPress={() => navigation.navigate('SetOptions')}
       />
       <Button
         title="Payments"
@@ -87,6 +92,7 @@ const App: React.FC = () => {
         <Stack.Screen name="CreateAccount" component={CreateAccount} />
         <Stack.Screen name="UserProfile" component={UserProfile} />
         <Stack.Screen name="transferPage" component={transferPage} />
+        <Stack.Screen name="SetOptions" component={SetOptions} />
       </Stack.Navigator>
     </NavigationContainer>
   );
